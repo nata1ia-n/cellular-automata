@@ -1,0 +1,7 @@
+# Ignore environment variables
+.env
+
+# Ignore common IDE or editor temporary files
+*.pyc  # Python bytecode files
+*.idea/  # IntelliJ IDEA project files
+.vscode/  # VS Code project files
