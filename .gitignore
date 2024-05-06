@@ -1,0 +1,11 @@
+# Ignore environment variables
+.env
+
+# Ignore frontend build files (assuming Next.js)
+frontend/node_modules/
+frontend/.next/
+
+# Ignore common IDE or editor temporary files
+*.pyc  # Python bytecode files
+*.idea/  # IntelliJ IDEA project files
+.vscode/  # VS Code project files
