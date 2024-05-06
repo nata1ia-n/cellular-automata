@@ -9,3 +9,7 @@ frontend/.next/
 *.pyc  # Python bytecode files
 *.idea/  # IntelliJ IDEA project files
 .vscode/  # VS Code project files
+
+backend/dev-env/
+
+.DS_Store
