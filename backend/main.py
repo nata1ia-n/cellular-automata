@@ -1,4 +1,6 @@
-# run with: uvicorn main:app --reload
+# run with: 
+# source path/to/venv/bin/activate
+# uvicorn main:app --reload
 from typing import Union
 
 import functions as f

@@ -3,5 +3,10 @@
 
 # Ignore common IDE or editor temporary files
 *.pyc  # Python bytecode files
+*.pyo
+*.pyd
 *.idea/  # IntelliJ IDEA project files
 .vscode/  # VS Code project files
+
+__pycache__/
+path/to/venv
