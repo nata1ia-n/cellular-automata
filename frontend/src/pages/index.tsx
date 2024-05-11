@@ -78,20 +78,20 @@ export default function Home() {
   console.log("generations: ", generationsNumber);
 
   return (
-    <div className="flex flex-row items-center justify-center h-screen gap-40 w-screen overflow-auto">
-      <div className="flex flex-col gap-5 items-center justify-center">
+    <div className="flex flex-row items-center justify-center h-screen gap-20 w-screen overflow-auto">
+      <div className="flex flex-col gap-5 items-center w-full justify-center">
         <h1 className="text-xl text-center text-blue-600">
           Elementary Cellular Automata
         </h1>
-        <div className="flex flex-row gap-2">
-          <div className="flex flex-col">
-            <label
-              htmlFor="patternNumber"
-              className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4"
-            >
-              Pattern number
-            </label>
-            <div className="input-container">
+        <form className="w-full max-w-lg">
+          <div className="flex flex-wrap -mx-3 mb-6">
+            <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+              <label
+                htmlFor="patternNumber"
+                className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+              >
+                Pattern number
+              </label>
               <input
                 id="patternNumber"
                 type="number"
@@ -99,40 +99,38 @@ export default function Home() {
                 max={255}
                 value={patternNumber}
                 onChange={handlePatternNumberChange}
-                className={`border-2 rounded w-full py-2 px-4 text-gray-700 focus:outline-none ${
+                className={`border-2 block leading-tight rounded w-full py-2 px-4 text-gray-700 focus:outline-none ${
                   patternError ? "border-red-500" : "border-gray-200"
                 }`}
               />
-              {patternError && (
-                <div className="text-red-500 text-xs mt-1">{patternError}</div>
-              )}
+              <div className="error-message absolute text-red-500 text-xs mt-1">
+                {patternError}
+              </div>
             </div>
-          </div>
-          <div className="flex flex-col">
-            <label
-              htmlFor="generationsNumber"
-              className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4"
-            >
-              Number of generations
-            </label>
-            <input
-              id="generationsNumber"
-              type="number"
-              min={0}
-              max={1000}
-              value={generationsNumber}
-              onChange={handleGenerationsNumberChange}
-              className={`border-2 rounded w-full py-2 px-4 text-gray-700 focus:outline-none ${
-                generationsError ? "border-red-500" : "border-gray-200"
-              }`}
-            />
-            {generationsError && (
-              <div className="text-red-500 text-xs mt-1">
+            <div className="w-full md:w-1/2 px-3">
+              <label
+                htmlFor="generationsNumber"
+                className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+              >
+                Number of generations
+              </label>
+              <input
+                id="generationsNumber"
+                type="number"
+                min={0}
+                max={1000}
+                value={generationsNumber}
+                onChange={handleGenerationsNumberChange}
+                className={`border-2 block leading-tight rounded w-full py-2 px-4 text-gray-700 focus:outline-none ${
+                  generationsError ? "border-red-500" : "border-gray-200"
+                }`}
+              />
+              <div className="error-message absolute text-red-500 text-xs mt-1">
                 {generationsError}
               </div>
-            )}
+            </div>
           </div>
-        </div>
+        </form>
         <button
           onClick={getGenerations}
           className={` ${
