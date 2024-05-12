@@ -25,3 +25,8 @@ def read_root():
 def get_generations(pattern_number: int, generations_number: int):
     generations = f.calculate_generations(f.get_initial_generation(generations_number), f.get_patterns(pattern_number), generations_number)
     return {"generations": generations}
+
+@app.get("/{pattern_number}")
+def get_rules(pattern_number: int):
+    rules = f.get_patterns(pattern_number)
+    return {"rules": rules}

@@ -1,4 +1,5 @@
 import CellularAutomatonCanvas from "@/components/CellularAutomatonCanvas";
+import Popup from "@/components/Popup";
 import { apiRequestBodySchema } from "@/utils/types";
 import axios from "axios";
 import { useState } from "react";
@@ -12,6 +13,12 @@ export default function Home() {
 
   const [patternError, setPatternError] = useState<string>("");
   const [generationsError, setGenerationsError] = useState<string>("");
+
+  const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
+  const [rulePatterns, setRulePatterns] = useState<Record<
+    number,
+    number
+  > | null>(null);
 
   const disableButton = loading || !!patternError || !!generationsError;
 
@@ -74,8 +81,22 @@ export default function Home() {
     }
   };
 
-  console.log("pattern: ", patternNumber);
-  console.log("generations: ", generationsNumber);
+  const getPattern = async () => {
+    const url = `http://localhost:8000/${patternNumber}`;
+    try {
+      const response = await axios.get(url);
+      const rules = response.data["rules"];
+      setRulePatterns(rules);
+      setIsPopupOpen(true);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const closePopup = () => {
+    setIsPopupOpen(false);
+    setRulePatterns(null);
+  };
 
   return (
     <div className="flex flex-row items-center justify-center h-screen gap-20 w-screen overflow-auto">
@@ -131,17 +152,32 @@ export default function Home() {
             </div>
           </div>
         </form>
-        <button
-          onClick={getGenerations}
-          className={` ${
-            disableButton ? "bg-gray-300 " : "bg-blue-500 hover:bg-blue-700"
-          }  text-white font-bold py-2 px-4 rounded-full`}
-          disabled={disableButton}
-        >
-          {loading ? "Loading..." : "Generate"}
-        </button>
+        <div className="flex flex-row gap-5">
+          <button
+            onClick={getGenerations}
+            className={` ${
+              disableButton ? "bg-gray-300 " : "bg-blue-500 hover:bg-blue-700"
+            }  text-white font-bold py-2 px-4 rounded-full`}
+            disabled={disableButton}
+          >
+            {loading ? "Loading..." : "Generate"}
+          </button>
+          <button
+            onClick={getPattern}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-8 rounded-full"
+          >
+            Rules
+          </button>
+        </div>
         {generations.length > 0 && (
           <CellularAutomatonCanvas generations={generations} />
+        )}
+        {isPopupOpen && rulePatterns && (
+          <Popup
+            patterns={rulePatterns}
+            onClose={closePopup}
+            rule={patternNumber}
+          />
         )}
       </div>
     </div>
