@@ -3,11 +3,13 @@
 ### Backend
 
 - navigate to the `backend` folder
-- run: `uvicorn main:app --reload`
-
-*note: you should be in a virtual environment that has required dependencies intalled*
+- create a virtual environment: `python -m venv path/to/venv`
+- activate the environment: `source path/to/venv/bin/activate`
+- install dependecies: `python -m pip install -r requirements.txt`
+- run the backend: `uvicorn main:app --reload`
 
 ### Frontend
 
 - navigate to the `frontend` folder
-- run `npm run dev`
+- install dependencies: `npm i`
+- run the frontend: `npm run dev`
