@@ -24,6 +24,7 @@ const Popup: React.FC<PopupProps> = ({ patterns, onClose, rule }) => {
               .split("")
               .map((bit, index) => (
                 <div
+                  key={`ruleCell-${index}`}
                   className={`w-8 h-8 mr-1 ${
                     bit === "1" ? "bg-black" : "bg-white "
                   } border border-gray-300`}
@@ -31,13 +32,17 @@ const Popup: React.FC<PopupProps> = ({ patterns, onClose, rule }) => {
               ));
             const outputCell = (
               <div
+                key={`outputCell-${ruleNumber}`}
                 className={`w-8 h-8 mr-1 ${
                   output === 1 ? "bg-black" : "bg-white"
                 } border border-gray-300`}
               />
             );
             return (
-              <div className="flex flex-col items-center">
+              <div
+                key={`ruleRow-${ruleNumber}`}
+                className="flex flex-col items-center"
+              >
                 <div className="flex">{ruleCells}</div>
                 <div className="mt-2">{outputCell}</div>
               </div>
