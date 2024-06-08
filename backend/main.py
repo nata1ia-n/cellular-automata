@@ -1,9 +1,8 @@
 # run with: 
-# source path/to/venv/bin/activate
+# poetry shell
 # uvicorn main:app --reload
-from typing import Union
 
-import functions as f
+import automata.calculate as calc
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -23,10 +22,10 @@ def read_root():
 
 @app.get("/{pattern_number}/{generations_number}")
 def get_generations(pattern_number: int, generations_number: int):
-    generations = f.calculate_generations(f.get_initial_generation(generations_number), f.get_patterns(pattern_number), generations_number)
+    generations = calc.generations(calc.initial_generation(generations_number), calc.patterns(pattern_number), generations_number)
     return {"generations": generations}
 
 @app.get("/{pattern_number}")
 def get_rules(pattern_number: int):
-    rules = f.get_patterns(pattern_number)
+    rules = calc.patterns(pattern_number)
     return {"rules": rules}

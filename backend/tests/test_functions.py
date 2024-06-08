@@ -1,5 +1,5 @@
 import pytest
-from functions import (calculate_generations, calculate_next_generation,
+from backend.automata.calculate import (calculate_generations, calculate_next_generation,
                        get_initial_generation, get_patterns)
 from hypothesis import given
 from hypothesis.strategies import integers
