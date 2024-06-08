@@ -3,9 +3,8 @@
 ### Backend
 
 - navigate to the `backend` folder
-- create a virtual environment: `python -m venv path/to/venv`
-- activate the environment: `source path/to/venv/bin/activate`
-- install dependecies: `python -m pip install -r requirements.txt`
+- activate the poetry environment: `poetry shell`
+- install dependecies: `poetry install`
 - run the backend: `uvicorn main:app --reload`
 
 ### Frontend
