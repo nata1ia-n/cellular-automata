@@ -26,7 +26,7 @@ const CellularAutomatonCanvas: React.FC<CellularAutomatonCanvasProps> = ({
     // canvas dimensions
     const cols = generations[0].length;
     const rows = generations.length;
-    const cellSize = 600 / rows;
+    const cellSize = 450 / rows;
     canvas.width = cols * cellSize;
     canvas.height = rows * cellSize;
 

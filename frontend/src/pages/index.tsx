@@ -62,7 +62,19 @@ export default function Home() {
     }
   };
 
-  const getGenerations = async () => {
+  const getPattern = async () => {
+    const url = `http://localhost:8000/${patternNumber}`;
+    try {
+      const response = await axios.get(url);
+      const rules = response.data["rules"];
+      setRulePatterns(rules);
+      setIsPopupOpen(true);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const generateResults = async () => {
     validatePatternNumber(patternNumber);
     validateGenerationsNumber(generationsNumber);
 
@@ -79,34 +91,18 @@ export default function Home() {
         setLoading(false);
       }
     }
-  };
-
-  const getPattern = async () => {
-    const url = `http://localhost:8000/${patternNumber}`;
-    try {
-      const response = await axios.get(url);
-      const rules = response.data["rules"];
-      setRulePatterns(rules);
-      setIsPopupOpen(true);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const closePopup = () => {
-    setIsPopupOpen(false);
-    setRulePatterns(null);
+    getPattern();
   };
 
   return (
-    <div className="flex flex-row items-center justify-center h-screen gap-20 w-screen overflow-auto">
-      <div className="flex flex-col gap-5 items-center w-full justify-center">
+    <div className="flex flex-row items-center justify-center min-h-screen w-screen overflow-auto">
+      <div className="flex flex-col gap-3 items-center w-full justify-center mt-1">
         <h1 className="text-xl text-center text-blue-600">
           Elementary Cellular Automata
         </h1>
         <form className="w-full max-w-lg">
-          <div className="flex flex-wrap -mx-3 mb-6">
-            <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+          <div className="flex flex-wrap -mx-3 mb-2">
+            <div className="w-full md:w-1/2 px-3 md:mb-0">
               <label
                 htmlFor="patternNumber"
                 className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
@@ -152,32 +148,20 @@ export default function Home() {
             </div>
           </div>
         </form>
-        <div className="flex flex-row gap-5">
-          <button
-            onClick={getGenerations}
-            className={` ${
-              disableButton ? "bg-gray-300 " : "bg-blue-500 hover:bg-blue-700"
-            }  text-white font-bold py-2 px-4 rounded-full`}
-            disabled={disableButton}
-          >
-            {loading ? "Loading..." : "Generate"}
-          </button>
-          <button
-            onClick={getPattern}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-8 rounded-full"
-          >
-            Rules
-          </button>
-        </div>
-        {generations.length > 0 && (
-          <CellularAutomatonCanvas generations={generations} />
-        )}
-        {isPopupOpen && rulePatterns && (
-          <Popup
-            patterns={rulePatterns}
-            onClose={closePopup}
-            rule={patternNumber}
-          />
+        <button
+          onClick={generateResults}
+          className={` ${
+            disableButton ? "bg-gray-300 " : "bg-blue-500 hover:bg-blue-700"
+          }  text-white font-bold py-2 px-4 rounded-full`}
+          disabled={disableButton}
+        >
+          {loading ? "Loading..." : "Generate"}
+        </button>
+        {generations.length > 0 && rulePatterns && (
+          <>
+            <Popup patterns={rulePatterns} />
+            <CellularAutomatonCanvas generations={generations} />
+          </>
         )}
       </div>
     </div>
