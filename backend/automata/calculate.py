@@ -1,20 +1,6 @@
 from typing import List
 
-# def get_initial_generation(generations_number: int) -> List[int]:
-#     half = generations_number // 2
-#     pattern = 1 << half
-#     initial_generation_list = [(pattern >> i) & 1 for i in reversed(range(generations_number))]
-#     return initial_generation_list
-
-# def first_generation(radius: int) -> List[int]:
-#     return ([0] * radius) + [1] + ([0] * radius)
-
-# def create_first_generation(radius: int) -> List[int]:
-#     return [1 if i == radius else 0 for i in range(2 * radius + 1)]
-
-
 def initial_generation(size: int) -> List[int]:
-    # g = list(range(size))
     g = [0] * size
     g[size // 2] = 1
     return g
@@ -24,6 +10,10 @@ def patterns(pattern_number: int) -> dict[int, int]:
     patterns = {i: int(rules_binary_string[-(i+1)]) for i in range(8)}
     return patterns
 
+def rule_from_patterns(patterns: dict[int, int]) -> int:
+    rules_binary_string = ''.join(str(patterns[i]) for i in range(7, -1, -1))
+    return int(rules_binary_string, 2)
+
 def next_generation(current_generation: List[int], patterns: dict[int, int]) -> List[int]:
     new_generation = []
     for i in range(len(current_generation)):
@@ -31,8 +21,8 @@ def next_generation(current_generation: List[int], patterns: dict[int, int]) -> 
         center = current_generation[i]
         right = current_generation[i + 1] if i < len(current_generation) - 1 else 0
         pattern = (left << 2) | (center << 1) | right # same as (left * 4) + (center * 2) + (right * 1)
-        new_generation.append(patterns[pattern]) 
-    return new_generation
+        new_generation.append(patterns[pattern]) # type: ignore
+    return new_generation # type: ignore
 
 def generations(initial_pattern: List[int], patterns: dict[int, int], generations: int) -> List[List[int]]:
     current_generation = [cell for cell in initial_pattern]

@@ -1,12 +1,12 @@
 import CellularAutomatonCanvas from "@/components/CellularAutomatonCanvas";
-import Popup from "@/components/Popup";
+import Rules from "@/components/Rules";
 import { apiRequestBodySchema } from "@/utils/types";
 import axios from "axios";
 import { useState } from "react";
 
 export default function Home() {
   const [generations, setGenerations] = useState<number[][]>([]);
-  const [patternNumber, setPatternNumber] = useState<number>(218);
+  const [patternNumber, setPatternNumber] = useState<number>(90);
   const [generationsNumber, setGenerationsNumber] = useState<number>(50);
 
   const [loading, setLoading] = useState<boolean>(false);
@@ -14,7 +14,6 @@ export default function Home() {
   const [patternError, setPatternError] = useState<string>("");
   const [generationsError, setGenerationsError] = useState<string>("");
 
-  const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
   const [rulePatterns, setRulePatterns] = useState<Record<
     number,
     number
@@ -62,13 +61,12 @@ export default function Home() {
     }
   };
 
-  const getPattern = async () => {
-    const url = `http://localhost:8000/${patternNumber}`;
+  const getPattern = async (pattern: number) => {
+    const url = `http://localhost:8000/${pattern}`;
     try {
       const response = await axios.get(url);
       const rules = response.data["rules"];
       setRulePatterns(rules);
-      setIsPopupOpen(true);
     } catch (error) {
       console.log(error);
     }
@@ -91,7 +89,7 @@ export default function Home() {
         setLoading(false);
       }
     }
-    getPattern();
+    getPattern(patternNumber);
   };
 
   return (
@@ -159,7 +157,11 @@ export default function Home() {
         </button>
         {generations.length > 0 && rulePatterns && (
           <>
-            <Popup patterns={rulePatterns} />
+            <Rules
+              patterns={rulePatterns}
+              setPatternNumber={setPatternNumber}
+              setRulePatterns={setRulePatterns}
+            />
             <CellularAutomatonCanvas generations={generations} />
           </>
         )}
