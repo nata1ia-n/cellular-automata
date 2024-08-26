@@ -1,8 +1,12 @@
 from typing import List
+import random
 
-def initial_generation(size: int) -> List[int]:
-    g = [0] * size
-    g[size // 2] = 1
+def initial_generation(size: int, randomize: bool = False) -> List[int]:
+    if randomize:
+        g = [random.choice([0,1]) for _ in range(size)]
+    else:
+        g = [0] * size
+        g[size // 2] = 1
     return g
 
 def patterns(pattern_number: int) -> dict[int, int]:

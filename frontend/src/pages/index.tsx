@@ -14,7 +14,7 @@ export default function Home() {
   const [patternError, setPatternError] = useState<string>("");
   const [generationsError, setGenerationsError] = useState<string>("");
 
-  const [initialGeneration, setInitialGeneration] = useState<number>(0);
+  const [randomize, setRandomize] = useState<boolean>(false);
 
   const [rulePatterns, setRulePatterns] = useState<Record<
     number,
@@ -39,8 +39,8 @@ export default function Home() {
     validateGenerationsNumber(value);
   };
 
-  const handleInitialGenerationChoice = (index: number) => {
-    setInitialGeneration(index);
+  const handleInitialGenerationChoice = (randomize: boolean) => {
+    setRandomize(randomize);
   };
 
   const validatePatternNumber = (value: number) => {
@@ -83,7 +83,7 @@ export default function Home() {
     validateGenerationsNumber(generationsNumber);
 
     if (!patternError && !generationsError) {
-      const url = `http://localhost:8000/${patternNumber}/${generationsNumber}`;
+      const url = `http://localhost:8000/${patternNumber}/${generationsNumber}?randomize=${randomize}`;
       setLoading(true);
       try {
         const response = await axios.get(url);
@@ -159,21 +159,17 @@ export default function Home() {
             </label>
             <div className="flex w-full gap-2">
               <div
-                onClick={() => handleInitialGenerationChoice(0)}
+                onClick={() => handleInitialGenerationChoice(false)}
                 className={`cursor-pointer py-1 px-8 border-2 rounded-lg ${
-                  initialGeneration === 0
-                    ? "border-blue-500"
-                    : "border-gray-300"
+                  randomize === false ? "border-blue-500" : "border-gray-300"
                 }`}
               >
                 Single cell
               </div>
               <div
-                onClick={() => handleInitialGenerationChoice(1)}
+                onClick={() => handleInitialGenerationChoice(true)}
                 className={`cursor-pointer py-1 px-8 border-2 rounded-lg ${
-                  initialGeneration === 1
-                    ? "border-blue-500"
-                    : "border-gray-300"
+                  randomize === true ? "border-blue-500" : "border-gray-300"
                 }`}
               >
                 Random

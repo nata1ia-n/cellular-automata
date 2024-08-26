@@ -22,8 +22,10 @@ def read_root():
     return {"Hello": "World"}
 
 @app.get("/{pattern_number}/{generations_number}")
-def get_generations(pattern_number: int, generations_number: int):
-    generations = calc.generations(calc.initial_generation(generations_number), calc.patterns(pattern_number), generations_number)
+def get_generations(pattern_number: int, generations_number: int, randomize: bool = False):
+    initial_gen = calc.initial_generation(generations_number, randomize=randomize)
+    pattern = calc.patterns(pattern_number)
+    generations = calc.generations(initial_gen, pattern, generations_number)
     return {"generations": generations}
 
 @app.get("/{pattern_number}")
