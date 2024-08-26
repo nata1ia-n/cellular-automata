@@ -42,7 +42,7 @@ const Rules: React.FC<RulesProps> = ({
   };
 
   return (
-    <div className="bg-white p-4 rounded-lg shadow-md max-w-lg w-full">
+    <div className="bg-white p-4 rounded-lg shadow-md max-w-xl w-full">
       <div className="grid grid-cols-4 gap-4">
         {Object.entries(patterns).map(([ruleNumber, output]) => {
           const binaryRule = (+ruleNumber).toString(2).padStart(3, "0");
