@@ -2,7 +2,7 @@
 # poetry shell
 # uvicorn main:app --reload
 
-import automata.calculate as calc
+import automata.calculate as calc # type: ignore
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
