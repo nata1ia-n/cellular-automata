@@ -1,4 +1,7 @@
 import CellularAutomatonCanvas from "@/components/CellularAutomatonCanvas";
+import Generations from "@/components/Generations";
+import InitialGeneration from "@/components/InitialGeneration";
+import Patterns from "@/components/Patterns";
 import Rules from "@/components/Rules";
 import { apiRequestBodySchema } from "@/utils/types";
 import axios from "axios";
@@ -22,22 +25,6 @@ export default function Home() {
   > | null>(null);
 
   const disableButton = loading || !!patternError || !!generationsError;
-
-  const handlePatternNumberChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const value = parseInt(event.target.value);
-    setPatternNumber(value);
-    validatePatternNumber(value);
-  };
-
-  const handleGenerationsNumberChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const value = parseInt(event.target.value);
-    setGenerationsNumber(value);
-    validateGenerationsNumber(value);
-  };
 
   const handleInitialGenerationChoice = (randomize: boolean) => {
     setRandomize(randomize);
@@ -88,7 +75,6 @@ export default function Home() {
       try {
         const response = await axios.get(url);
         setGenerations(response.data["generations"]);
-        console.log("🦙 response: ", response.data);
       } catch (error) {
         console.error(error);
       } finally {
@@ -107,74 +93,27 @@ export default function Home() {
         <form className="w-full max-w-xl">
           <div className="flex flex-wrap -mx-3 mb-2">
             <div className="w-full md:w-1/2 px-3 md:mb-0 text-center">
-              <label
-                htmlFor="patternNumber"
-                className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-              >
-                Pattern number
-              </label>
-              <input
-                id="patternNumber"
-                type="number"
-                min={0}
-                max={255}
-                value={patternNumber}
-                onChange={handlePatternNumberChange}
-                className={`border-2 block leading-tight rounded w-full py-2 px-4 text-gray-700 focus:outline-none ${
-                  patternError ? "border-red-500" : "border-gray-200"
-                }`}
+              <Patterns
+                setPatternNumber={setPatternNumber}
+                patternNumber={patternNumber}
+                patternError={patternError}
               />
-              <div className="error-message absolute text-red-500 text-xs mt-1">
-                {patternError}
-              </div>
             </div>
             <div className="w-full md:w-1/2 px-3 text-center">
-              <label
-                htmlFor="generationsNumber"
-                className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-              >
-                Number of generations
-              </label>
-              <input
-                id="generationsNumber"
-                type="number"
-                min={0}
-                max={1000}
-                value={generationsNumber}
-                onChange={handleGenerationsNumberChange}
-                className={`border-2 block leading-tight rounded w-full py-2 px-4 text-gray-700 focus:outline-none ${
-                  generationsError ? "border-red-500" : "border-gray-200"
-                }`}
+              <Generations
+                setGenerationsNumber={setGenerationsNumber}
+                generationsNumber={generationsNumber}
+                generationsError={generationsError}
               />
-              <div className="error-message absolute text-red-500 text-xs mt-1">
-                {generationsError}
-              </div>
             </div>
           </div>
         </form>
         <div className="flex w-full items-center justify-center max-w-xl">
           <div className="flex flex-col w-1/2 items-center justify-center">
-            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-              Initial generation
-            </label>
-            <div className="flex w-full gap-2">
-              <div
-                onClick={() => handleInitialGenerationChoice(false)}
-                className={`cursor-pointer py-1 px-8 border-2 rounded-lg ${
-                  randomize === false ? "border-blue-500" : "border-gray-300"
-                }`}
-              >
-                Single cell
-              </div>
-              <div
-                onClick={() => handleInitialGenerationChoice(true)}
-                className={`cursor-pointer py-1 px-8 border-2 rounded-lg ${
-                  randomize === true ? "border-blue-500" : "border-gray-300"
-                }`}
-              >
-                Random
-              </div>
-            </div>
+            <InitialGeneration
+              handleInitialGenerationChoice={handleInitialGenerationChoice}
+              randomize={randomize}
+            />
           </div>
           <div className="flex w-1/2 justify-center">
             <button
