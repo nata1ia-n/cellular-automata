@@ -13,3 +13,4 @@ frontend/.next/
 backend/dev-env/
 
 .DS_Store
+backend/.hypothesis
